@@ -23,9 +23,9 @@ Rules:
 
 ## Tasks
 
-- [ ] Task 1: function works
-- [ ] Task 2: program prints 1..100 correct
-- [ ] Task 3 (bonus): Do it with `match` instead of `if`
+- [x] Task 1: function works
+- [x] Task 2: program prints 1..100 correct
+- [x] Task 3 (bonus): Do it with `match` instead of `if`
 
 Example output:
 ```

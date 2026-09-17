@@ -2,7 +2,14 @@
 // HINT: check % 15 first! Because 15 = 3 * 5.
 
 fn fizzbuzz(n: u32) -> String {
-    todo!("Return Fizz, Buzz, FizzBuzz or number as String")
+    let fizz = n % 3;
+    let buzz = n % 5;
+    match (fizz, buzz) {
+        (0, 0) => format!("FizzBuzz"),
+        (0, _) => format!("Fizz"),
+        (_, 0) => format!("Buzz"),
+            _  => format!("The number is not any of them: {}", n)
+    }
 }
 
 fn main() {

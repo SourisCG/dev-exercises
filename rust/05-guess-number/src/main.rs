@@ -14,9 +14,10 @@ fn main() {
     let secret: u32 = rand::thread_rng().gen_range(1..=100);
 
     // TODO Task 2: count tries. Make variable `tries = 0`, +1 each loop.
+    let mut tries = 1;
     // TODO Task 3 (bonus): max 10 tries. If tries == 10, print secret and break.
 
-    loop {
+    while tries < 11 {
         println!("Write your guess:");
 
         let mut guess_text = String::new();
@@ -37,10 +38,11 @@ fn main() {
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
                 // TODO: print tries here. Example: "You win in 5 tries!"
-                println!("You win!");
+                println!("You win in {} tries!", tries);
                 break;
             }
         }
+        tries += 1
     }
 }
 
