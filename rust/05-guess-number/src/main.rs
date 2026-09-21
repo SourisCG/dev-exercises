@@ -44,6 +44,9 @@ fn main() {
         }
         tries += 1
     }
+    if tries == 11 {
+        println!("You lose! The secret number was: {}", secret);
+    }
 }
 
 #[cfg(test)]

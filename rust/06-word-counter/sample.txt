@@ -1,0 +1,4 @@
+Rust is a fast language. Rust helps you write safe code.
+Many people love Rust! Rust, Rust, Rust.
+Do you want to learn Rust? Yes! Start with small programs,
+read files, count words, and have fun. Practice every day.

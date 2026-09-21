@@ -8,7 +8,7 @@ fn fizzbuzz(n: u32) -> String {
         (0, 0) => format!("FizzBuzz"),
         (0, _) => format!("Fizz"),
         (_, 0) => format!("Buzz"),
-            _  => format!("The number is not any of them: {}", n)
+            _  => n.to_string()
     }
 }
 
