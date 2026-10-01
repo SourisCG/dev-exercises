@@ -1,0 +1,11 @@
+{
+  "name": "bash-exercises",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test": "bats 01-hello 02-arguments 03-files 04-loops 05-functions 06-pipes 07-wordcount 08-todo"
+  },
+  "devDependencies": {
+    "bats": "^1.13.0"
+  }
+}

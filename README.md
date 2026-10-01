@@ -10,6 +10,8 @@ Repo with programming exercises. Clone it, solve them, learn!
 | `typescript/` | TypeScript: types, generics, async | `cd typescript && pnpm install && pnpm test` |
 | `react/` | React: components, state, effects, todo app | `cd react && pnpm install && pnpm dev` |
 | `tauri/` | Desktop apps: React window + Rust brain | `cd tauri/01-hello-tauri && pnpm install && pnpm tauri dev` |
+| `bash/` | Bash: variables, pipes, scripts, todo.sh | `cd bash && pnpm install && pnpm test` |
+| `java/` | Java: Maven exercises + Gradle todo project | `cd java && mvn test` |
 
 ## Order
 

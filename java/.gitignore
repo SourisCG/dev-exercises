@@ -1,0 +1,24 @@
+# Maven
+target/
+
+# Gradle
+build/
+.gradle/
+gradle-todo/build/
+gradle-todo/.gradle/
+
+# Java
+*.class
+out/
+
+# Logs
+logs
+*.log
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.iml
+.DS_Store
+*.sw?
