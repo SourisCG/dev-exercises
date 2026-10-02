@@ -10,16 +10,33 @@ export interface User {
 
 // TODO: "Ana (30) <ana@mail>" or "Bob (17)" when no email.
 export function formatUser(_user: User): string {
-  throw new Error("TODO 02: formatUser");
+  if (_user.email != undefined) {
+    return _user.name + " (" + _user.age + ") " + "<" + _user.email + ">";
+  } else {
+    return _user.name + " (" + _user.age + ")";
+  }
 }
 
 // TODO: true if user.age >= 18
 export function isAdultUser(_user: User): boolean {
-  throw new Error("TODO 02: isAdultUser");
+  if (_user.age >= 18){
+    return true;
+  } else{
+    return false;
+  }
 }
 
 // TODO: return a NEW user with the email. Do NOT change the original!
 // HINT: return { ...user, email };
 export function withEmail(_user: User, _email: string): User {
-  throw new Error("TODO 02: withEmail");
+  if (_user.email != undefined){
+    throw new Error("The user has a email already");
+  }
+  const NEW_USER: User = {
+    id: _user.id,
+    name: _user.name,
+    age: _user.age,
+    email: _email
+  }
+  return NEW_USER
 }
