@@ -3,18 +3,27 @@
 
 // TODO: sum of all numbers. [] -> 0.
 export function sum(_nums: number[]): number {
-  throw new Error("TODO 04: sum");
+  let result = 0;
+  for (let i = 0; i < _nums.length; i++) {
+    result = result + _nums[i]
+  }
+  return result
 }
 
 // TODO: average. [] -> 0 (no crash!).
 export function average(_nums: number[]): number {
-  throw new Error("TODO 04: average");
+  let sum = 0;
+  for (let i = 0; i < _nums.length; i++) {
+    sum = sum + _nums[i]
+  }
+  return sum / _nums.length
 }
 
 // TODO: remove repeats, keep order. [1, 2, 2, 3] -> [1, 2, 3].
 // HINT: [...new Set(nums)]
 export function unique(_nums: number[]): number[] {
-  throw new Error("TODO 04: unique");
+  let result: number[] = [];
+  
 }
 
 // TODO: first number or undefined if empty.
