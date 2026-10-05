@@ -34,37 +34,61 @@ enum Command {
 impl TodoList {
     fn new() -> TodoList {
         // TODO: same as 08.
-        todo!("Return empty TodoList")
+        TodoList { tasks: Vec::new(), next_id: 1 }
     }
 
     fn add(&mut self, title: &str) -> u32 {
         // TODO: same as 08.
-        let _ = title;
-        todo!("Push task and return id")
+        let task = Task { id: self.next_id, title: title.to_string(), done: false };
+        self.tasks.push(task);
+        let id = self.next_id;
+        self.next_id += 1;
+        id
     }
 
     fn list(&self) -> &[Task] {
         // TODO: same as 08.
-        todo!("Return &self.tasks")
+        &self.tasks
     }
 
     fn mark_done(&mut self, id: u32) -> bool {
         // TODO: same as 08.
-        let _ = id;
-        todo!("Set done = true, return true/false")
+        if let Some(task) = self.tasks.iter_mut().find(|task| task.id == id) {
+            task.done = true;
+            return true;
+        }
+        false
     }
 
     fn remove(&mut self, id: u32) -> bool {
         // TODO: same as 08.
-        let _ = id;
-        todo!("Remove task, return true/false")
+        if let Some(index) = self.tasks.iter().position(|task| task.id == id) {
+            self.tasks.remove(index);
+            return true;
+        }
+        false
     }
 }
 
 fn parse_command(input: &str) -> Command {
     // TODO: same as 08.
-    let _ = input;
-    todo!("Parse text into Command")
+    let mut parts = input.splitn(2, ' ');
+    match parts.next().unwrap_or("") {
+        "add" => Command::Add(parts.next().unwrap_or("").to_string()),
+        "list" => Command::List,
+        "done" => parts
+            .next()
+            .and_then(|id| id.trim().parse().ok())
+            .map(Command::Done)
+            .unwrap_or(Command::Unknown),
+        "remove" => parts
+            .next()
+            .and_then(|id| id.trim().parse().ok())
+            .map(Command::Remove)
+            .unwrap_or(Command::Unknown),
+        "quit" => Command::Quit,
+        _ => Command::Unknown,
+    }
 }
 
 // ===== TODO Task 2: JSON =====
@@ -72,15 +96,13 @@ fn parse_command(input: &str) -> Command {
 // TodoList -> JSON text.
 // HINT: serde_json::to_string_pretty(&list).map_err(|e| e.to_string())
 fn to_json(list: &TodoList) -> Result<String, String> {
-    let _ = list;
-    todo!("Serialize list to JSON string")
+    serde_json::to_string_pretty(list).map_err(|e| e.to_string())
 }
 
 // JSON text -> TodoList.
 // HINT: serde_json::from_str(text).map_err(|e| e.to_string())
 fn from_json(text: &str) -> Result<TodoList, String> {
-    let _ = text;
-    todo!("Deserialize JSON string to TodoList")
+    serde_json::from_str(text).map_err(|e| e.to_string())
 }
 
 // ===== TODO Task 3: files =====
@@ -90,8 +112,8 @@ fn save(list: &TodoList) -> Result<(), String> {
     // TODO: text = to_json(list)? then fs::write(FILE, text).
     // Change io error to String with .map_err(|e| e.to_string())?
     // HINT: `?` works here because errors are both String.
-    let _ = list;
-    todo!("Write JSON to file")
+    let text = to_json(list)?;
+    fs::write(FILE, text).map_err(|e| e.to_string())
 }
 
 // Load list from tasks.json.
@@ -101,7 +123,20 @@ fn load() -> TodoList {
     // Ok(text) -> from_json(&text).unwrap_or_else(|_| TodoList::new())
     // Err(_) -> TodoList::new()
     // BONUS: fix next_id = max id + 1, so ids never repeat.
-    todo!("Read file or return empty list")
+    match fs::read_to_string(FILE) {
+        Ok(text) => {
+            let mut list = from_json(&text).unwrap_or_else(|_| TodoList::new());
+            list.next_id = list
+                .tasks
+                .iter()
+                .map(|task| task.id)
+                .max()
+                .unwrap_or(0)
+                .saturating_add(1);
+            list
+        }
+        Err(_) => TodoList::new(),
+    }
 }
 
 fn show(list: &TodoList) {

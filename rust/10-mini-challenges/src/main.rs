@@ -8,7 +8,7 @@ fn is_palindrome(s: &str) -> bool {
     // TODO: compare s with its reverse.
     // HINT: s.chars().rev().collect::<String>() == s
     let _ = s;
-    todo!("Check palindrome")
+    s.chars().rev().collect::<String>() == s
 }
 
 // ===== 2. Reverse =====
@@ -17,7 +17,7 @@ fn reverse_string(s: &str) -> String {
     // TODO: reverse the chars.
     // HINT: s.chars().rev().collect()
     let _ = s;
-    todo!("Reverse string")
+    s.chars().rev().collect::<String>()
 }
 
 // ===== 3. Vowels =====
@@ -26,7 +26,7 @@ fn count_vowels(s: &str) -> usize {
     // TODO: count vowels.
     // HINT: s.chars().filter(|c| matches!(c.to_ascii_lowercase(), 'a'|'e'|'i'|'o'|'u')).count()
     let _ = s;
-    todo!("Count vowels")
+    s.chars().filter(|c| matches!(c.to_ascii_lowercase(), 'a'|'e'|'i'|'o'|'u')).count()
 }
 
 // ===== 4. Prime =====
@@ -36,7 +36,15 @@ fn is_prime(n: u64) -> bool {
     // HINT: for i in 2..n { if n % i == 0 { return false; } } true
     // (Slow but ok for small numbers.)
     let _ = n;
-    todo!("Check prime")
+    if n < 2 {
+        return false;
+    }
+    for i in 2..n {
+        if n % i == 0 {
+            return false;
+        }
+    }
+    true
 }
 
 // ===== 5. Fibonacci =====
@@ -45,7 +53,13 @@ fn fibonacci(n: u32) -> u64 {
     // TODO: loop, no recursion. Keep a=0, b=1, repeat n times.
     // HINT: for _ in 0..n { let t = a + b; a = b; b = t; } a
     let _ = n;
-    todo!("Fibonacci number")
+    let (mut a, mut b) = (0, 1);
+    for _ in 0..n {
+        let t = a + b;
+        a = b;
+        b = t;
+    }
+    a
 }
 
 // ===== 6. Min and Max =====
@@ -53,7 +67,20 @@ fn fibonacci(n: u32) -> u64 {
 fn min_max(nums: &[u32]) -> Option<(u32, u32)> {
     // TODO: empty -> None. Else loop and track min, max.
     let _ = nums;
-    todo!("Find min and max")
+    if nums.is_empty() {
+        return None;
+    }
+    let mut min = nums[0];
+    let mut max = nums[0];
+    for &n in nums.iter() {
+        if n < min {
+            min = n;
+        }
+        if n > max {
+            max = n;
+        }
+    }
+    Some((min, max))
 }
 
 // ===== 7. Sum of evens =====
@@ -62,7 +89,7 @@ fn sum_even(nums: &[i32]) -> i32 {
     // TODO: sum only n % 2 == 0.
     // HINT: nums.iter().filter(|n| *n % 2 == 0).sum()
     let _ = nums;
-    todo!("Sum even numbers")
+    nums.iter().filter(|&&n| n % 2 == 0).sum()
 }
 
 // ===== 8. Anagram =====
@@ -73,7 +100,14 @@ fn is_anagram(a: &str, b: &str) -> bool {
     // HINT: let mut va: Vec<char> = a.chars().collect(); va.sort_unstable();
     //       same for b, then va == vb
     let _ = (a, b);
-    todo!("Check anagram")
+    if a.len() != b.len() {
+        return false;
+    }
+    let mut va: Vec<char> = a.chars().collect();
+    let mut vb: Vec<char> = b.chars().collect();
+    va.sort_unstable();
+    vb.sort_unstable();
+    va == vb
 }
 
 // ===== 9. Caesar cipher =====
@@ -84,8 +118,19 @@ fn caesar_cipher(text: &str, shift: u8) -> String {
     //   if c is 'a'..='z': ((c as u8 - b'a' + shift) % 26 + b'a') as char
     //   if c is 'A'..='Z': same with b'A'
     //   else: keep c
-    let _ = (text, shift);
-    todo!("Caesar cipher")
+    let mut result = String::new();
+    for c in text.chars() {
+        if c >= 'a' && c <= 'z' {
+            let shifted = ((c as u8 - b'a' + shift) % 26 + b'a') as char;
+            result.push(shifted);
+        } else if c >= 'A' && c <= 'Z' {
+            let shifted = ((c as u8 - b'A' + shift) % 26 + b'A') as char;
+            result.push(shifted);
+        } else {
+            result.push(c);
+        }
+    }
+    result
 }
 
 // ===== 10. Transpose =====
@@ -95,7 +140,18 @@ fn transpose(matrix: &[Vec<i32>]) -> Vec<Vec<i32>> {
     // TODO: if empty, return vec![]. Else make cols empty vecs,
     // push matrix[r][c] into out[c].
     let _ = matrix;
-    todo!("Transpose matrix")
+    if matrix.is_empty() {
+        return vec![];
+    }
+    let rows = matrix.len();
+    let cols = matrix[0].len();
+    let mut transposed = vec![vec![0; rows]; cols];
+    for r in 0..rows {
+        for c in 0..cols {
+            transposed[c][r] = matrix[r][c];
+        }
+    }
+    transposed
 }
 
 fn main() {

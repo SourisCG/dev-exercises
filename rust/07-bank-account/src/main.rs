@@ -15,21 +15,33 @@ enum Tx {
 impl Account {
     // TODO Task 1: make new account with balance 0.
     fn new(owner: &str) -> Account {
-        let _ = owner;
-        todo!("Return Account with owner name and 0 balance")
+        Account {
+            owner: owner.to_string(),
+            balance_cents: 0,
+        }
     }
 
     fn deposit(&mut self, cents: i64) -> Result<(), String> {
         // TODO Task 1: add money. Error if cents <= 0.
-        let _ = cents;
-        todo!("Add cents to balance, or Err")
+        if cents <= 0 {
+            Err("The value must be higher than 0".to_string())
+        } else {
+            self.balance_cents += cents;
+            Ok(())
+        }
     }
 
     fn withdraw(&mut self, cents: i64) -> Result<(), String> {
         // TODO Task 2: take money. Error if cents <= 0.
         // Error "not enough money" if balance < cents.
-        let _ = cents;
-        todo!("Remove cents from balance, or Err")
+        if cents <= 0 {
+            Err("The value must be higher than 0".to_string())
+        } else if cents > self.balance_cents {
+            Err("not enough money".to_string())
+        } else {
+            self.balance_cents -= cents;
+            Ok(())
+        }
     }
 
     // TODO Task 3: match on tx. Call deposit or withdraw.
@@ -40,13 +52,16 @@ impl Account {
     //   }
     //   Ok(())
     fn apply(&mut self, tx: Tx) -> Result<(), String> {
-        let _ = tx;
-        todo!("Match Tx, call deposit/withdraw")
+        match tx {
+            Tx::Deposit(c) => self.deposit(c)?,
+            Tx::Withdraw(c) => self.withdraw(c)?,
+        }
+        Ok(())
     }
 
     fn balance(&self) -> i64 {
         // TODO: return balance_cents.
-        todo!("Return balance")
+        self.balance_cents
     }
 }
 
@@ -66,7 +81,10 @@ fn main() {
     io::stdout().flush().unwrap();
     let owner = read_line();
     let mut acc = Account::new(&owner);
-    println!("Hello, {}! Commands: deposit 500 | withdraw 200 | balance | quit", owner);
+    println!(
+        "Hello, {}! Commands: deposit 500 | withdraw 200 | balance | quit",
+        acc.owner
+    );
 
     loop {
         print!("> ");

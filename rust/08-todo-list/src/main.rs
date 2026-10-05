@@ -24,7 +24,7 @@ enum Command {
 impl TodoList {
     fn new() -> TodoList {
         // TODO Task 1: empty vec, next_id = 1.
-        todo!("Return empty TodoList")
+        TodoList { tasks: Vec::new(), next_id: 1 }
     }
 
     // Add task. Return its id.
@@ -32,12 +32,18 @@ impl TodoList {
         // TODO Task 1: push Task, grow next_id, return id.
         // NOTE: &str in, String inside. Use title.to_string().
         let _ = title;
-        todo!("Push task and return id")
+        self.tasks.push(Task {
+            id: self.next_id,
+            title: title.to_string(),
+            done: false,
+        });
+        self.next_id += 1;
+        self.next_id - 1
     }
 
     fn list(&self) -> &[Task] {
         // TODO Task 1: return slice of tasks.
-        todo!("Return &self.tasks")
+        &self.tasks
     }
 
     // Mark task done. true = found, false = no such id.
@@ -45,7 +51,13 @@ impl TodoList {
         // TODO Task 2: find task with id, set done = true.
         // HINT: for t in &mut self.tasks { if t.id == id { ... } }
         let _ = id;
-        todo!("Set done = true, return true/false")
+        for t in &mut self.tasks {
+            if t.id == id {
+                t.done = true;
+                return true;
+            }
+        }
+        false
     }
 
     // Remove task. true = found, false = no such id.
@@ -54,7 +66,11 @@ impl TodoList {
         // HINT: self.tasks.iter().position(|t| t.id == id)
         //       then self.tasks.remove(pos)
         let _ = id;
-        todo!("Remove task, return true/false")
+        if let Some(pos) = self.tasks.iter().position(|t| t.id == id) {
+            self.tasks.remove(pos);
+            return true;
+        }
+        false
     }
 }
 
@@ -66,7 +82,23 @@ fn parse_command(input: &str) -> Command {
     // TODO Task 4: finish this function.
     // HINT: split_once(' ') splits "add Buy milk" into ("add", "Buy milk").
     let _ = input;
-    todo!("Parse text into Command")
+    match input.split_once(' ') {
+        Some(("add", title)) => Command::Add(title.to_string()),
+        Some(("done", id_str)) => match id_str.parse::<u32>() {
+            Ok(id) => Command::Done(id),
+            Err(_) => Command::Unknown,
+        },
+        Some(("remove", id_str)) => match id_str.parse::<u32>() {
+            Ok(id) => Command::Remove(id),
+            Err(_) => Command::Unknown,
+        },
+        _ => match input {
+            "list" => Command::List,
+            "quit" => Command::Quit,
+            _ => Command::Unknown,
+        },
+        
+    }
 }
 
 fn show(list: &TodoList) {

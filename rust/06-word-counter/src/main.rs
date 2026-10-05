@@ -17,7 +17,14 @@ fn count_words(text: &str) -> HashMap<String, usize> {
     //   }
     //   map
     let _ = text;
-    todo!("Count words into a HashMap")
+    let mut map= HashMap::new();
+    for word in text.split_whitespace() {
+        let clean = word.to_lowercase();
+        let clean = clean.trim_matches(|c:char| !c.is_alphanumeric());
+        if clean.is_empty() { continue; }
+        *map.entry(clean.to_string()).or_insert(0) += 1;
+    }
+    map
 }
 
 // Return top N words. Big count first.
@@ -31,8 +38,12 @@ fn top_words(counts: &HashMap<String, usize>, n: usize) -> Vec<(String, usize)> 
     //   v.sort_by(|a, b| b.1.cmp(&a.1));
     //   v.truncate(n);
     //   v
-    let _ = (counts, n);
-    todo!("Sort words by count, take top N")
+    let mut v: Vec<(String, usize)> = counts.iter()
+        .map(|(w, c)| (w.clone(), *c))
+        .collect();
+    v.sort_by(|a, b| b.1.cmp(&a.1));
+    v.truncate(n);
+    v
 }
 
 fn main() {
