@@ -5,12 +5,12 @@ import type { User } from "./02-interfaces";
 // TODO: wait ms milliseconds, then finish.
 // HINT: return new Promise((resolve) => setTimeout(resolve, ms));
 export function delay(_ms: number): Promise<void> {
-  throw new Error("TODO 07: delay");
+  return new Promise((resolve) => setTimeout(resolve, _ms))
 }
 
 // TODO: wait ms, then return "Hello, <name>!"
 export function greetLater(_name: string, _ms: number): Promise<string> {
-  throw new Error("TODO 07: greetLater");
+  return new Promise((resolve) => setTimeout(resolve, _ms, "Hello, " + _name + "!"))
 }
 
 // TODO: run ALL tasks, return ALL results in order.
@@ -18,13 +18,13 @@ export function greetLater(_name: string, _ms: number): Promise<string> {
 export function loadAll<T>(
   _tasks: Array<() => Promise<T>>,
 ): Promise<T[]> {
-  throw new Error("TODO 07: loadAll");
+  return Promise.all(_tasks.map((t) => t()))
 }
 
 // TODO: return work's value. If work takes more than ms, reject Error("timeout").
 // HINT: return Promise.race([work, delay(ms).then(() => { throw new Error("timeout"); })]);
 export function withTimeout<T>(_work: Promise<T>, _ms: number): Promise<T> {
-  throw new Error("TODO 07: withTimeout");
+  return Promise.race([_work, delay(_ms).then(() => { throw new Error("timeout"); })])
 }
 
 // Fake server. No internet needed. Tests use this.
@@ -49,6 +49,7 @@ export type UserApi = ReturnType<typeof makeUserApi>;
 // TODO: load all names. loadNames(api, [1, 2]) -> ["Ana", "Bob"].
 // HINT: const users = await Promise.all(ids.map((id) => api.fetchUser(id)));
 //       return users.map((u) => u.name);
-export function loadNames(_api: UserApi, _ids: number[]): Promise<string[]> {
-  throw new Error("TODO 07: loadNames");
+export async function loadNames(_api: UserApi, _ids: number[]): Promise<string[]> {
+  const users = await Promise.all(_ids.map((id) => _api.fetchUser(id)));
+  return users.map((u) => u.name)
 }

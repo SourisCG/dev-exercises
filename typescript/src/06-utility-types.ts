@@ -6,22 +6,25 @@ import type { User } from "./02-interfaces";
 // updateUser(bob, { age: 18 }) -> new user, age 18.
 // HINT: return { ...user, ...changes };
 export function updateUser(_user: User, _changes: Partial<User>): User {
-  throw new Error("TODO 06: updateUser");
+  return { ..._user, ..._changes };
 }
 
 // TODO: id -> name. [{id:1,name:"Ana"}] -> { 1: "Ana" }.
 export function toNameMap(_users: readonly User[]): Record<number, string> {
-  throw new Error("TODO 06: toNameMap");
+  return _users.reduce<Record<number, string>>((map, user) => {
+    map[user.id] = user.name;
+    return map;
+  }, {});
 }
 
 // TODO: return only name and email. { name, email }.
 export function preview(_user: User): Pick<User, "name" | "email"> {
-  throw new Error("TODO 06: preview");
+  return { name: _user.name, email: _user.email };
 }
 
 export type Role = "admin" | "user" | "guest";
 
 // TODO: { admin: [], user: [], guest: [] }.
 export function emptyPermissions(): Record<Role, string[]> {
-  throw new Error("TODO 06: emptyPermissions");
+  return { admin: [], user: [], guest: []}
 }
