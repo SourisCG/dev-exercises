@@ -14,5 +14,12 @@ export interface ProfileProps {
 //   <p> with exactly "Age: {age}"  (example: "Age: 36")
 //   <p> with the email, or exactly "no email" when missing
 export function ProfileCard(_props: ProfileProps): JSX.Element {
-  throw new Error('TODO 01: ProfileCard')
+  const { name, age, email } = _props
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>Age: {age}</p>
+      <p>{email || 'no email'}</p>
+    </div>
+  )
 }

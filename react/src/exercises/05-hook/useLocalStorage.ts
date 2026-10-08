@@ -2,6 +2,8 @@
 // Run: pnpm dev, open 05. Tests: pnpm test 05-hook
 // localStorage = small box in the browser. Data lives after reload!
 
+import { useState } from "react"
+
 // TODO:
 //   import { useState } from 'react'   (add this import!)
 //   const [value, setValue] = useState<T>(() => {
@@ -18,5 +20,19 @@ export function useLocalStorage<T>(
   _key: string,
   _initial: T,
 ): [T, (v: T) => void] {
-  throw new Error('TODO 05: useLocalStorage')
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const saved = localStorage.getItem(_key)
+      return saved === null ? _initial : (JSON.parse(saved) as T)
+    } catch {
+      return _initial
+    }
+  })
+
+  const save = (v: T) => {
+    setValue(v)
+    localStorage.setItem(_key, JSON.stringify(v))
+  }
+
+  return [value, save]
 }

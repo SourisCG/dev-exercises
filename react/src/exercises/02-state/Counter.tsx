@@ -1,6 +1,7 @@
 // 02 - State and events. useState remembers a value. Click = event.
 // Run: pnpm dev, open 02. Tests: pnpm test 02-state
-import type { JSX } from 'react'
+import type { JSX } from "react";
+import { useState } from "react";
 
 // TODO:
 //   import { useState } from 'react'   (add this import!)
@@ -11,5 +12,19 @@ import type { JSX } from 'react'
 //   Button "Reset" -> setCount(0)
 // HINT: <button type="button" onClick={() => setCount(count + 1)}>+1</button>
 export function Counter(): JSX.Element {
-  throw new Error('TODO 02: Counter')
+  const [count, setCount] = useState(0);
+  return (
+    <>
+      <p>Count: {count}</p>
+      <button type="button" onClick={() => setCount(count + 1)}>
+        +1
+      </button>
+      <button type="button" onClick={() => setCount(count - 1)}>
+        -1
+      </button>
+      <button type="button" onClick={() => setCount(0)}>
+        Reset
+      </button>
+    </>
+  );
 }
